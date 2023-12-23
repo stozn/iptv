@@ -1,0 +1,1 @@
+flutter build apk --split-per-abi --split-debug-info .
