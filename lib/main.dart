@@ -26,10 +26,10 @@ class AppTheme {
 
 class VideoApp extends StatefulWidget {
   @override
-  _VideoAppState createState() => _VideoAppState();
+  VideoAppState createState() => VideoAppState();
 }
 
-class _VideoAppState extends State<VideoApp> {
+class VideoAppState extends State<VideoApp> {
   late VideoPlayerController _controller;
   ChewieController? _chewieController;
   int? bufferDelay;
@@ -73,6 +73,8 @@ class _VideoAppState extends State<VideoApp> {
       autoInitialize: true,
       looping: false,
       isLive: true,
+      allowedScreenSleep: false,
+      showOptions: false,
       progressIndicatorDelay:
           bufferDelay != null ? Duration(milliseconds: bufferDelay!) : null,
       hideControlsTimer: const Duration(seconds: 3),
@@ -84,7 +86,7 @@ class _VideoAppState extends State<VideoApp> {
       loading = true;
     });
 
-    await _controller.pause();
+    // await _controller.pause();
     for (var ch in srcs.keys) {
       if (ch != curChannel) {
         curChannel = ch;
@@ -102,7 +104,7 @@ class _VideoAppState extends State<VideoApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Video Demo',
+      title: 'IPTV',
       theme: AppTheme.light.copyWith(
         platform: TargetPlatform.windows,
       ),
@@ -122,7 +124,7 @@ class _VideoAppState extends State<VideoApp> {
                       children: [
                         CircularProgressIndicator(),
                         SizedBox(height: 20),
-                        Text('Loading'),
+                        Text('加载中'),
                       ],
                     ),
             ),

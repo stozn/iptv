@@ -1,1 +1,1 @@
-flutter build apk --split-per-abi --split-debug-info .
+flutter build apk --split-per-abi --split-debug-info . && explorer .\build\app\outputs\apk\release
