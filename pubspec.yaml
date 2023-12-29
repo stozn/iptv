@@ -1,7 +1,7 @@
 name: iptv
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.0
+version: 0.2.0
 
 environment:
   sdk: '>=3.2.3 <4.0.0'
@@ -11,7 +11,9 @@ dependencies:
     sdk: flutter
   video_player: ^2.8.1
   chewie: ^1.7.4
-
+  go_router: ^13.0.0
+  provider: ^6.1.1
+  url_launcher: ^6.2.2
 
 dev_dependencies:
   flutter_test:
