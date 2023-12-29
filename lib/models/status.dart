@@ -6,7 +6,7 @@ import 'package:iptv/models/channels.dart';
 class StatusModel extends ChangeNotifier {
   late ChannelListModel _channelList;
   late Channel _curChannel;
-  late VideoPlayerController _controller;
+  VideoPlayerController? _controller;
   ChewieController? _chewieController;
   int? bufferDelay;
   bool loading = false;
@@ -18,6 +18,11 @@ class StatusModel extends ChangeNotifier {
 
   set channelList(ChannelListModel newChannelList) {
     _channelList = newChannelList;
+    notifyListeners();
+  }
+
+  set curChannel(Channel channel) {
+    _curChannel = channel;
     notifyListeners();
   }
 
@@ -34,7 +39,7 @@ class StatusModel extends ChangeNotifier {
 
   Future<void> playCustom(String name, String src) async {
     _curChannel = Channel(name, src);
-    if (_chewieController == null) await initializePlayer();
+    await initializePlayer();
     notifyListeners();
   }
 
@@ -54,7 +59,7 @@ class StatusModel extends ChangeNotifier {
 
   void _createChewieController() {
     _chewieController = ChewieController(
-      videoPlayerController: _controller,
+      videoPlayerController: _controller!,
       autoPlay: true,
       autoInitialize: true,
       looping: false,
@@ -68,11 +73,16 @@ class StatusModel extends ChangeNotifier {
   }
 
   Future<void> initializePlayer() async {
+    await _controller?.dispose();
+    _chewieController?.dispose();
+    _chewieController = null;
+    notifyListeners();
     _controller = VideoPlayerController.networkUrl(Uri.parse(curChannel.src));
-    await _controller.initialize();
+    await _controller!.initialize();
     _createChewieController();
     print(curChannel.name);
     print(curChannel.src);
+    await _controller!.play();
     loading = false;
   }
 
@@ -85,14 +95,12 @@ class StatusModel extends ChangeNotifier {
       if (keys[i] == curChannel.name) next = i + 1;
     }
     play(name: keys[next]);
-    await _controller.play();
     loading = false;
     notifyListeners();
   }
 
   Future<void> refresh() async {
-    play(name: curChannel.name);
-    await _controller.play();
+    await play(name: curChannel.name);
     notifyListeners();
   }
 }

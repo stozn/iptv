@@ -46,6 +46,8 @@ class MyApp extends StatelessWidget {
           update: (context, channelList, status) {
             if (status == null) throw ArgumentError.notNull('status');
             status.channelList = channelList;
+            status.curChannel =
+                channelList.get(channelList.channels.keys.toList()[0]);
             return status;
           },
         ),

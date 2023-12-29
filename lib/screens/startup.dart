@@ -50,7 +50,9 @@ class MyStartup extends StatelessWidget {
                     child: ElevatedButton.icon(
                       icon: const Icon(Icons.live_tv),
                       onPressed: () {
-                        status.play(index: 0);
+                        if (status.chewieController == null) {
+                          status.play(name: status.curChannel.name);
+                        }
                         context.go('/video');
                       },
                       label: Text('播放器'),

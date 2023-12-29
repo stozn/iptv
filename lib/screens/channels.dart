@@ -18,7 +18,9 @@ class MyChannels extends StatelessWidget {
           IconButton(
               icon: const Icon(Icons.live_tv),
               onPressed: () {
-                status.play(index: 0);
+                if (status.chewieController == null) {
+                  status.play(name: status.curChannel.name);
+                }
                 context.go('/video');
               }),
         ],
